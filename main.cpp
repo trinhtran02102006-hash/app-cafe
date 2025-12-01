@@ -41,7 +41,6 @@ int main() {
         
         switch(choice) {
             case 1: {
-                // Login
                 printBox("DANG NHAP");
                 
                 string identifier, password;
@@ -61,15 +60,15 @@ int main() {
                     
                     currentUser = user;
                     
-                    // Set global paths for current user
+                    
                     user->setGlobalPaths();
                     
                     cout << "\n⏳ Loading system...\n";
                     
-                    // Vào main menu
+                    
                     showMenu();
                     
-                    // Logout sau khi thoát menu
+                    
                     printInfo("Da dang xuat khoi he thong");
                     delete currentUser;
                     currentUser = nullptr;
@@ -79,7 +78,6 @@ int main() {
                 break;
             }
             case 2: {
-                // Register
                 printBox("DANG KI TAI KHOAN MOI");
                 
                 string username, email, password;
