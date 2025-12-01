@@ -1,0 +1,5 @@
+01|trin|v7788a@gmail.com|090807|data/nhanvien/01_nhanvien.txt|data/sanpham/01_sanpham.txt|data/tables/01_tables.txt|data/hoadon/01_hoadon|data/dongtien/01_dongtien.txt
+02|tin|hihihi@gmail.com|123456|data/nhanvien/02_nhanvien.txt|data/sanpham/02_sanpham.txt|data/tables/02_tables.txt|data/hoadon/02_hoadon|data/dongtien/02_dongtien.txt
+03|tung|tung@gmail.com|12345|data/nhanvien/03_nhanvien.txt|data/sanpham/03_sanpham.txt|data/tables/03_tables.txt|data/hoadon/03_hoadon|data/dongtien/03_dongtien.txt
+04|testuser|test@gmail.com|12345|data/nhanvien/04_nhanvien.txt|data/sanpham/04_sanpham.txt|data/tables/04_tables.txt|data/hoadon/04_hoadon|data/dongtien/04_dongtien.txt
+

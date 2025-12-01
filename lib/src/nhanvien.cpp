@@ -1,0 +1,222 @@
+#include "../headers/nhanvien.h"
+#include<iostream>
+#include<vector>
+#include <fstream>
+
+
+float Staff::TinhLuong(int& SoGioCong, float& TienThuong, float& TienPhat, float& TienUng) {
+    double total = (SoGioCong * getBasicSalary()) + TienThuong - TienPhat - TienUng;
+    return total;
+}
+
+void Staff::ThemNhanVien(string& id, string& name, string& age, string& phoneNum, float& basicSalary) {
+    setID(id);
+    setName(name);
+    setAge(age);
+    setPhoneNum(phoneNum);
+    setBasicSalary(basicSalary);
+
+    ofstream out(currentNvPath, ios::app);
+    if(!out) {
+        cout << "Khong mo duoc file!\\nThem nhan vien that bai!" << endl;
+        return;
+    }
+    else { 
+    out << getID() << "|" << getName() << "|" 
+        << getAge() << "|" << getPhoneNum() << "|"
+        << getBasicSalary() << endl;
+    
+    cout << string(59, '-')  << endl
+     << "Da them thanh cong nhan vien: " << getName() << endl
+     << string(59, '-') << endl;
+    return;
+    }
+}
+
+void Staff::XoaNhanVien(string& deleteID) {
+    ifstream in(currentNvPath);
+    vector<string> lines; //luu tam bang moi sau khi xoa nhan vien
+    string line, id;
+
+    if(!in) {
+        cout << "\\n!!! LOI KHONG THE MO FILE !!!\\n" << endl;
+        return;
+    }
+    
+    while (getline(in, line)) {
+        /* doan nay duyet qua toan bo file */
+        size_t pos = line.find('|');
+        if(pos != string::npos) { 
+            id = line.substr(0, pos);
+        }
+        else id = line; //cai nay tuong tu nhu ben untils.cpp, qua do xem
+
+        
+        if(id != deleteID) lines.push_back(line);
+    }
+    in.close();
+
+    
+    ofstream out(currentNvPath, ios::trunc);
+    for(auto& l : lines) out << l << endl;
+    out.close();
+
+    cout << endl << string(4, '-') << " Da xoa thanh cong nhan vien: " << getName() 
+    << " " << string(4, '-') << endl;
+}
+
+void Staff::ChinhSuaThongTin(string id, int action) {
+    ifstream in(currentNvPath);
+    string line;
+    vector<string> lines;
+    bool found = false;
+    switch(action) {
+        case 1: {
+            // sua ten
+            string newName;
+            cout << "Nhap ten moi: "; cin >> newName;
+            setName(newName);
+            while (getline(in, line)) {
+                vector<string> fields = TrimFields(id, line);
+                if(fields.empty() && fields[0] == id) {
+                    found = true;
+                    fields[1] = newName;
+                    lines.push_back(LinkedFields(fields));
+                }
+                lines.push_back(line);
+            }
+            in.close();
+
+            if(found) {
+                ofstream out(currentNvPath, ios::trunc);
+                for(auto& l: lines) out << l << endl;
+                out.close();
+            }
+            cout << endl << string(4, '-') << " Da sua thanh cong ten cua nhan vien: " << getName() 
+            << " " << string(4, '-') << endl;
+            break;
+        }
+        case 2: {
+            // sua tuoi
+            string newAge;
+            cout << "Nhap tuoi moi: "; cin >> newAge;
+            setAge(newAge);
+            while (getline(in, line)) {
+                vector<string> fields = TrimFields(id, line);
+                if(fields.empty() && fields[0] == id) {
+                    found = true;
+                    fields[2] = newAge;
+                    lines.push_back(LinkedFields(fields));
+                }
+                lines.push_back(line);
+            }
+            in.close();
+
+            if(found) {
+                ofstream out(currentNvPath, ios::trunc);
+                for(auto& l: lines) out << l << endl;
+                out.close();
+            }cout << endl << string(4, '-') << " Da sua thanh cong tuoi cua nhan vien: " << getName() 
+            << " thanh " << getAge() << " " << string(4, '-') << endl;
+            break;
+        }
+        case 3: {
+            // sua so dien thoai
+            string newPhoneNum;
+            cout << "Nhap so dien thoai moi: "; cin >> newPhoneNum;
+            setPhoneNum(newPhoneNum);
+            while (getline(in, line)) {
+                vector<string> fields = TrimFields(id, line);
+                if(fields.empty() && fields[0] == id) {
+                    found = true;
+                    fields[3] = newPhoneNum;
+                    lines.push_back(LinkedFields(fields));
+                }
+                lines.push_back(line);
+            }
+            in.close();
+
+            if(found) {
+                ofstream out(currentNvPath, ios::trunc);
+                for(auto& l: lines) out << l << endl;
+                out.close();
+            }
+            cout << endl << string(4, '-') << " Da sua thanh cong so dien thoai cua nhan vien: " << getName() 
+            << " thanh " << getPhoneNum() << " " << string(4, '-') << endl;
+            break;
+        }
+        case 4: {
+            // sua luong
+            float newSalary;
+            cout << "Nhap luong moi: "; cin >> newSalary;
+            setBasicSalary(newSalary);
+            while (getline(in, line)) {
+                vector<string> fields = TrimFields(id, line);
+                if(fields.empty() && fields[0] == id) {
+                    found = true;
+                    fields[4] = newSalary;
+                    lines.push_back(LinkedFields(fields));
+                }
+                lines.push_back(line);
+            }
+            in.close();
+
+            if(found) {
+                ofstream out(currentNvPath, ios::trunc);
+                for(auto& l: lines) out << l << endl;
+                out.close();
+            }
+            cout << endl << string(4, '-') << " Da sua thanh cong luong co ban cua nhan vien: " << getName() 
+
+
+            << " thanh " << getBasicSalary() << " " << string(4, '-') << endl;
+            break;
+        }
+        default: {
+            cout << "Vui long chon thong tin hop le!!!";
+            break;
+        }
+    }
+}
+
+void Staff::ShowDanhSach() {
+    cout << endl << string(20, '-') << "DANH SACH NHAN VIEN" << string(20, '-') << endl << endl;
+    cout << string(59, '-') << endl;
+    bool hasData = false;
+    ifstream in(currentNvPath);
+    string line;
+    while(getline(in, line)) {
+        if(line.empty()) continue;
+        hasData = true;
+        stringstream ss(line);
+        string id, name, age, phoneNum, temp;
+        float basicSalary = 0;
+        
+        getline(ss, id, '|');
+        getline(ss, name, '|');
+        getline(ss, age, '|');
+        getline(ss, phoneNum, '|');
+        getline(ss, temp, '|');
+
+        if(!temp.empty()) basicSalary = stof(temp);
+
+        cout << "- CCCD: " << id
+             << " | TEN: " << name << endl
+             << "| TUOI: " << age
+             << " | SO DIEN THOAI: " << phoneNum
+             << " | LUONG CO BAN: " << basicSalary << endl
+             << string(59, '-') << endl;
+    }
+    if(!hasData) {
+        cout << "Hien tai chua co nhan vien nao trong danh sach nay!" << endl
+             << string(59, '-') << endl;
+    }
+    in.close();
+}
+
+Staff Staff::findByID(vector<Staff> ds, string id) {
+    for (auto& s : ds)
+        if (s.getID() == id)
+            return s;
+    return Staff();
+}
